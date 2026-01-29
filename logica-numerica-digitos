@@ -1,0 +1,122 @@
+
+/* 
+Número Descuadrado: aquel que empieza con el cuadrado de su último dígito. Por ejemplo, 4938247.
+Número Reparado: aquel número par que comienza con un dígito impar. Por ejemplo, 347216.
+*/
+#include <stdio.h>
+
+float descuadrado(int n);
+float reparado(int n);
+void a_reparado();
+
+void desplegar(int a_rep[]);
+
+int main()
+{
+    int n;
+    int x;
+    int a_rep[20];
+    
+    printf("Ingrese un numero natural: ");
+    scanf("%i", &n);
+    
+    int w = descuadrado(n);
+    int e = reparado(n);
+    
+    if(w == 1){
+        printf("El numero es descuadrado\n");
+    }else{
+        printf("El numero es NO es descuadrado\n");
+    }
+    
+    if(e == 1){
+        printf("El numero es reparado\n");
+    }else{
+        printf("El numero es NO es reparado\n");
+    }
+    
+    a_reparado();
+    
+    desplegar(a_rep);
+
+    return 0;
+}
+
+float descuadrado(int n){
+    
+    int mod;
+    
+    mod = n % 10;
+    
+    if(mod <= 3){
+        do{
+            n = n / 10;
+        }while(n > 10);
+        
+        if(n == mod*mod){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    if(mod >= 4){
+        do{
+            n = n / 10;
+        }while(n > 100);
+        
+        if(n == mod*mod){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+}
+
+float reparado(int n){
+    
+    int k;
+    
+    if(n%2 == 0){
+        
+        while(n > 0){
+            k = n % 10;
+            n = n / 10;
+        }
+        if(k%2 != 0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }else{
+        return 0;
+    }
+}
+
+void a_reparado(){
+    
+    int a_rep[20];
+    
+    int cont=0;
+    
+    for(int i = 0; i < 100; i++){
+        int num= reparado(i);
+        
+        if(num == 1 && cont < 20){
+            a_rep[cont] = i;
+            cont++;
+        }
+    }
+    for(int i = 0; i < 20; i++){
+        printf("%i\n", a_rep[i]);
+    }
+    
+}
+
+void desplegar(int a_rep[]){
+    
+    
+    for(int i = 0; i < 20; i++){
+        printf("%i, ", a_rep[i]);
+    }
+}
