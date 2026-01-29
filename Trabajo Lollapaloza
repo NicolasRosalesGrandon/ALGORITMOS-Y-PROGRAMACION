@@ -1,0 +1,117 @@
+#include <stdio.h>
+
+int edad=0, m_asistentes=0, dias_asistencia=0,x=0, id_usuario=0,idusuario_menor=0 ,valor_entradas=25000,menor_edad=120,dias_menor_edad=0, cantidad_dias=0, venta_entradas=0, asistencia_dos_dias=0, suma_edad_dos_dias=0;
+float promedio_dias=0, prom_2_dias=0;
+
+int main(void) {
+
+
+
+  /* Integrantes*/
+  /*Nicolas Rosales */
+/*Profesora*/
+  /* Yelka Ruiz Rocha*/
+  
+  /* Aca se recibe el ingreso de la variable que contiene la cantidad de asistentes*/
+  
+  printf( "A) Cantidad de personas a ingresar:\n ");
+  scanf( "%d", &m_asistentes );
+
+  x=1;
+
+/* limpiamos la pantalla */
+
+  system("clear");
+
+/* While funciona mientras x sea menor o  igual a la cantidad de asistentes */
+
+  while (x<=m_asistentes) {
+   
+    printf("%d \t",x);
+   
+      printf ("\n");
+
+printf( "ID del asistente:\n ");
+  scanf( "%d", &id_usuario );
+
+
+ 
+ while (dias_asistencia>0 || dias_asistencia<=3 )  {
+ 
+   printf( "\n   Cantidad de dias que asistira ");
+ 
+   scanf( "%d", &dias_asistencia );
+
+if(dias_asistencia<=3 ) {
+
+  printf("dias %i\n",dias_asistencia);
+   
+  break;
+}
+  else {
+    printf( "\n   Debe indicar dias entre 1 y 3 ");
+}
+ 
+   
+}
+
+cantidad_dias=cantidad_dias+dias_asistencia;
+   
+
+   
+ printf( " Edad \n ");
+  scanf( "%d", &edad );
+
+
+   /* aca se verifica quien tiene la menor edad*/
+   
+if(edad<menor_edad){
+       menor_edad=edad;
+  dias_menor_edad=dias_asistencia;
+  idusuario_menor=id_usuario;  
+}
+
+  /* aca se verifica quien va  de 2 dias para  calcular promedio*/
+   
+if(dias_asistencia==2){
+   asistencia_dos_dias=(asistencia_dos_dias+1);
+   suma_edad_dos_dias=(suma_edad_dos_dias+edad);
+   dias_asistencia=0;
+}
+   
+   
+  x=x+1;
+  /*system("clear");*/
+ 
+ }
+
+
+ 
+  promedio_dias=cantidad_dias/m_asistentes;
+venta_entradas=(cantidad_dias * valor_entradas);
+  printf("INFORME DEL EVENTO\n\n");
+  
+  printf("B) El ID de menor es : %i\n",idusuario_menor);
+  printf("B) Menor edad es: %i\n",menor_edad);
+  printf("C) Promedio de dias de asistencia: %f\n",promedio_dias);
+
+
+  /* si ambas variables son mayores que cero se calcula, sino se presume que no hay asistentes con dos dias */
+  
+  if(suma_edad_dos_dias>0 || asistencia_dos_dias>0 ){
+     
+     prom_2_dias=(suma_edad_dos_dias/asistencia_dos_dias);
+      printf("D) Promedio  de edad aquellos que van dos dias es %f \n",prom_2_dias);
+    }
+    
+    else {
+         
+    printf("D) No hay asistentes con dos dias \n");  
+    
+  }
+ 
+  printf("E) La venta por entradas es %li\n",venta_entradas);
+
+ 
+  return 0;
+}
