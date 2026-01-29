@@ -1,0 +1,330 @@
+//Fecha 10-09-2023.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+// Prototipos de funciones
+void menu();
+int cantidad_digitos_multiplos_significativos(int num);
+int cantidad_digitos_no_multiplos_significativos(int num);
+int intervalo_numero_que_cumple_A(int inicial, int final, int cantidad_digitos);
+int intervalo_numero_que_cumple_B(int inicial, int final, int cantidad_digitos);
+void no_cumplen_A_B(int inicial, int final);
+
+
+int main()
+{
+    menu();
+
+    return 0;
+}
+
+/*MENU*/
+void menu()
+{
+    int opcion = 0;
+    while (1) // Siempre verdadero
+    {
+        printf("\n****************************************************************************************************************");
+        printf("\n*                                              MENU                                                            *");
+        printf("\n****************************************************************************************************************");
+        printf("\n*     1. Cantidad de dígitos múltiplos del dígito más significativo                                            *");
+        printf("\n*     2. Cantidad de dígitos, no múltiplos del dígito más significativo                                        *");
+        printf("\n*     3. Cantidad de números comprendidos en el intervalo [a, b], según lo descrito por la función a           *");
+        printf("\n*     4. Cantidad de números comprendidos en el intervalo [a, b], según lo descrito por la función b           *");
+        printf("\n*     5. Números comprendidos en el intervalo [a, b] que NO cumplen a y los que  NO cumplen b                  *");
+        printf("\n*     Ingrese cualquier otro número para salir del menú                                                        *");
+        printf("\n****************************************************************************************************************");
+        printf("\n*  Ingrese el número de la tarea que desea realizar  : ");
+        scanf("%d", &opcion);
+
+        switch (opcion)
+        {
+        case 1:
+        {
+            int numero;
+            int resultado;
+
+            printf("\n\nIngrese un número (entre 1000 y 99999): ");
+            scanf("%d", &numero);
+
+            if (numero >= 1000 && numero <= 99999)
+            {
+                resultado = cantidad_digitos_multiplos_significativos(numero);
+                printf("\nLa cantidad de múltiplos del dígito más significativo es: %d\n\n", resultado);
+            }
+            else
+            {
+                printf("\nNúmero fuera de rango. Debe ser un número entre 1000 y 99999.\n\n");
+            }
+
+            break;
+        }
+
+        case 2:
+        {
+            int numero1;
+            int resultado1;
+
+            printf("\n\nIngrese un número (entre 1000 y 99999): ");
+            scanf("%d", &numero1);
+
+            if (numero1 >= 1000 && numero1 <= 99999)
+            {
+                resultado1 = cantidad_digitos_no_multiplos_significativos(numero1);
+                printf("La cantidad de dígitos más significativos no múltiplos es: %d\n\n", resultado1);
+            }
+            else
+            {
+                printf("\nNúmero fuera de rango. Debe ser un número entre 1000 y 99999.\n\n");
+            }
+
+            break;
+        }
+
+        case 3:
+        {
+            int numero_inicial;
+            int numero_final;
+            int contador_numero_intervalo;
+            int cantidad_digitos;
+
+            printf("\n\nIngrese el primer número del intervalo: ");
+            scanf("%d", &numero_inicial);
+
+            printf("Ingrese el número final del intervalo: ");
+            scanf("%d", &numero_final);
+
+            if (numero_inicial >= 1000 && numero_inicial <= 99999 && numero_final >= 1000 && numero_final <= 99999)
+            {
+                printf("Ingrese cantidad de dígitos que desea corroborar: ");
+                scanf("%d", &cantidad_digitos);
+
+                contador_numero_intervalo = intervalo_numero_que_cumple_A(numero_inicial, numero_final, cantidad_digitos);
+                printf("\n%d\n\n", contador_numero_intervalo);
+            }
+            else
+            {
+                printf("\nNúmeros fuera de rango. Deben ser números entre 1000 y 99999.\n\n");
+            }
+
+            break;
+        }
+
+        case 4:
+        {
+            int numero_inicial1;
+            int numero_final1;
+            int contador_numero_intervalo1;
+            int cantidad_digitos1;
+
+            printf("\n\nIngrese el primer número del intervalo: ");
+            scanf("%d", &numero_inicial1);
+
+            printf("Ingrese el número final del intervalo: ");
+            scanf("%d", &numero_final1);
+
+            if (numero_inicial1 >= 1000 && numero_inicial1 <= 99999 && numero_final1 >= 1000 && numero_final1 <= 99999)
+            {
+                printf("Ingrese cantidad de dígitos que desea corroborar: ");
+                scanf("%d", &cantidad_digitos1);
+
+                contador_numero_intervalo1 = intervalo_numero_que_cumple_B(numero_inicial1, numero_final1, cantidad_digitos1);
+                printf("\n%d\n\n", contador_numero_intervalo1);
+            }
+            else
+            {
+                printf("\nNúmeros fuera de rango. Deben ser números entre 1000 y 99999.\n\n");
+            }
+
+            break;
+        }
+
+        case 5:
+        {
+            int numero_inicial2;
+            int numero_final2;
+
+            printf("\n\nIngrese número inicial: ");
+            scanf("%d", &numero_inicial2);
+
+            printf("Ingrese número final: ");
+            scanf("%d", &numero_final2);
+
+            if (numero_inicial2 >= 1000 && numero_inicial2 <= 99999 && numero_final2 >= 1000 && numero_final2 <= 99999)
+            {
+                no_cumplen_A_B(numero_inicial2, numero_final2);
+            }
+            else
+            {
+                printf("\nNúmeros fuera de rango. Deben ser números entre 1000 y 99999.\n\n");
+            }
+
+            break;
+        }
+
+        default:
+            exit(0);
+            break;
+        }
+    }
+}
+
+// Resto de las funciones sin cambios...
+
+// FUNCION A)
+
+int cantidad_digitos_multiplos_significativos(int num)
+{
+    // declaracion de variables
+    int digito;
+    int cantidad_digitos = 0;
+    int copia_num = num;
+    int i = 0;
+    int arreglo[5];
+
+    while (num / 10 > 0)
+    {
+        digito = num % 10;
+        num = num / 10;
+
+        arreglo[i] = digito;
+
+        i++;
+
+        cantidad_digitos++;
+    }
+
+    int digito_significativo = num;
+    int contador_multiplos = 0;
+
+    for (int j = 0; j < cantidad_digitos; j++)
+    {
+        if (arreglo[j] % digito_significativo == 0)
+        {
+            contador_multiplos++;
+        }
+    }
+
+    return contador_multiplos;
+}
+
+// FUNCION B
+
+int cantidad_digitos_no_multiplos_significativos(int num)
+{
+    int digito;
+    int cantidad_digitos = 0;
+    int copia_num = num;
+    int i = 0;
+    int arreglo[5];
+
+    while (num / 10 > 0)
+    {
+        digito = num % 10;
+        num = num / 10;
+        arreglo[i] = digito;
+        i++;
+        cantidad_digitos++;
+    }
+
+    int digito_significativo = num;
+    int contador_no_multiplos = 0;
+
+    for (int j = 0; j < cantidad_digitos; j++)
+    {
+        if (arreglo[j] % digito_significativo != 0)
+        {
+            contador_no_multiplos++;
+        }
+    }
+
+    return contador_no_multiplos;
+}
+
+// FUNCION C
+
+int intervalo_numero_que_cumple_A(int inicial, int final, int cantidad_digitos)
+{
+    int cantidad_multiplos;
+    int contador_numero_intervalo = 0;
+
+    for (int i = inicial; i <= final; i++)
+    {
+        cantidad_multiplos = cantidad_digitos_multiplos_significativos(i);
+        if (cantidad_multiplos == cantidad_digitos)
+        {
+       
+      //  DESCOMENTAR EN CASO DE COMPROBACION printf("%d\n",i);
+            
+            contador_numero_intervalo++;
+        }
+    }
+
+    return contador_numero_intervalo;
+}
+
+// FUNCION D
+
+int intervalo_numero_que_cumple_B(int inicial, int final, int cantidad_digitos)
+{
+    int cantidad_no_multiplos;
+    int contador_numero_intervalo = 0;
+
+    for (int i = inicial; i <= final; i++)
+    {
+        cantidad_no_multiplos = cantidad_digitos_no_multiplos_significativos(i);
+
+        if (cantidad_no_multiplos != cantidad_digitos)
+        {
+           //  DESCOMENTAR EN CASO DE COMPROBACION printf("%d\n",i);
+            
+            contador_numero_intervalo++;
+        }
+    }
+
+    return contador_numero_intervalo;
+}
+
+// FUNCION E
+
+void no_cumplen_A_B(int inicial, int final)
+{
+    int cantidad_multiplos;
+    int cantidad_no_multiplos;
+
+    printf("\n\nNúmeros que no cumplen con A \n");
+
+    for (int i = inicial; i <= final; i++)
+    {
+        cantidad_multiplos = cantidad_digitos_multiplos_significativos(i);
+
+        if (cantidad_multiplos <= 0)
+        {
+            printf("%d, ", i);
+        }
+    }
+
+    printf("\n\nNúmeros que no cumplen con B\n ");
+
+    for (int i = inicial; i <= final; i++)
+    {
+        cantidad_no_multiplos = cantidad_digitos_no_multiplos_significativos(i);
+
+        if (cantidad_no_multiplos <= 0)
+        {
+            printf("%d, ", i);
+        }
+    }
+
+    printf("\n\n");
+}
+
+
+
+
+
+
+
