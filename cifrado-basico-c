@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <string.h>
+
+int crear_cadena(char palabra[]);
+void cadena_protegida(int longitud, char palabra[], char palabra_protegida[]);
+void cadena_desprotegida(int longitud, char palabra_protegida[], char palabra_desprotegida[]);
+void desplegar_cadena(int longitud, char palabra[]);
+void menu(char palabra[]);
+
+int main()
+{
+    char palabra[100];
+    
+    menu(palabra);
+    
+    return 0;
+}
+
+int crear_cadena(char palabra[]){
+    
+    int longitud;
+    int cont = 0;
+  
+    do{
+        
+        printf("\nIngrese una palabra: ");
+        scanf("%s", palabra);
+        
+        longitud = strlen(palabra);
+        
+        for(int i = 0; i < longitud; i++){
+            
+            if(palabra[i] >= 65 && palabra[i] <= 90){
+                cont++;
+            }else{
+                cont = 0;
+            }
+        }
+        
+    }while((longitud > 16 || longitud < 8) || cont != longitud);
+    
+    return longitud;
+}
+
+void cadena_protegida(int longitud, char palabra[], char palabra_protegida[]){
+    
+    for(int i = 0; i < longitud; i++){
+        int x = palabra[i] + 8;
+        
+        if(x > 90){
+            x = x - 26;
+        }
+        
+        palabra_protegida[i] = x;
+        
+    }
+}
+    
+void cadena_desprotegida(int longitud, char palabra_protegida[], char palabra_desprotegida[]){
+    
+    for(int i = 0; i < longitud; i++){
+        int x = palabra_protegida[i] - 8;
+        
+        if(x < 65){
+            x = x + 26;
+        }
+        
+        palabra_desprotegida[i] = x;
+    }
+}
+
+void desplegar_cadena(int longitud, char palabra[]){
+    
+    for(int i = 0; i < longitud; i++){
+        printf("%c", palabra[i]);
+    }
+    
+    printf("\n\n");
+    
+}
+
+void menu(char palabra[]){
+    
+    int longitud;
+    
+    char palabra_protegida[longitud];
+    char palabra_desprotegida[longitud];
+    
+    int opcion;
+    
+    do{     
+        printf("\n                    MENÚ\n");
+        
+        printf("Opcion [1]: Ingresar palabra a proteger (en mayuscula).\n");
+        
+        printf("Opcion [2]: Generar palabra protegida (a partir de la original).\n");
+        
+        printf("Opcion [3]: Generar palabra original (a partir de la protegida).\n");
+        
+        printf("Opcion [4]: SALIR.\n");
+        
+        printf("\nIngrese una Opcion: ");
+        scanf("%d", &opcion);
+        
+        switch (opcion){
+            case 1:
+                
+                longitud = crear_cadena(palabra);
+                
+                break; 
+                
+            case 2:
+                
+                cadena_protegida(longitud, palabra, palabra_protegida);
+                
+                printf("\nPALABRA ORIGINAL\n");
+                
+                desplegar_cadena(longitud, palabra);
+                
+                printf("\nPALABRA PROTEGIDA\n");
+                
+                desplegar_cadena(longitud, palabra_protegida);
+                
+                break;
+                
+            case 3:
+                   
+                   cadena_desprotegida(longitud, palabra_protegida, palabra_desprotegida);
+                    
+                    printf("\nPALABRA PROTEGIDA\n");
+                    
+                    desplegar_cadena(longitud, palabra_protegida);
+                    
+                    printf("\nPALABRA ORIGINAL\n");
+                    
+                    desplegar_cadena(longitud, palabra_desprotegida);
+                   
+                break;
+        }
+    }while(opcion != 4);
+}
+
